@@ -1,75 +1,45 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import SearchBar from "@/components/SearchBar";
+import { icons } from "@/constants/icons";
+import { ScrollView, Text, View, Image } from "react-native";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
+export default function Index() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View className="flex-1 bg-white">
+      <View className="bg-primary w-full h-64 rounded-b-3xl shadow-md">
+        <View className="bg-primary w-full h-64 rounded-b-3xl shadow-md px-5 pt-12">
+          <View className="flex-row justify-between items-center pt-8 px-5">
+            {/* Left: Location */}
+            <View>
+              <Text className="text-white text-sm font-semibold">Location</Text>
+              <View className="flex-row items-center space-x-2 mt-1">
+                <Image
+                  source={icons.location}
+                  className="w-7 h-7 text-white"
+                  resizeMode="contain"
+                  tintColor="white"
+                />
+                <Text className="text-white text-lg font-semibold px-2">
+                  Zagreb, Croatia
+                </Text>
+              </View>
+            </View>
+
+            {/* Right: Icon or Profile */}
+            <View className="w-11 h-11 bg-white/30 rounded-lg items-center justify-center">
+              <Image
+                source={icons.notification}
+                className="w-7 h-7"
+                resizeMode="contain"
+                tintColor="white"
+              />
+            </View>
+          </View>
+          <View className="my-9">
+            <SearchBar placeholder="Search" />
+          </View>
+        </View>
+      </View>
+      <ScrollView className="flex-1 px-5"></ScrollView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
