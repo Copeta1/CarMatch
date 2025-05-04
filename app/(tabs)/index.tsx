@@ -1,6 +1,6 @@
 import SearchBar from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
-import { ScrollView, Text, View, Image } from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   return (
@@ -24,15 +24,15 @@ export default function Index() {
               </View>
             </View>
 
-            {/* Right: Icon or Profile */}
-            <View className="w-11 h-11 bg-white/30 rounded-lg items-center justify-center">
+            {/* Right */}
+            <TouchableOpacity className="w-11 h-11 bg-white/30 rounded-lg items-center justify-center">
               <Image
                 source={icons.notification}
                 className="w-7 h-7"
                 resizeMode="contain"
                 tintColor="white"
               />
-            </View>
+            </TouchableOpacity>
           </View>
           <View className="my-9">
             <SearchBar placeholder="Search" />

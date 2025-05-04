@@ -1,3 +1,4 @@
+import FloatingButton from "@/components/FloatingButton";
 import { icons } from "@/constants/icons";
 import { Tabs } from "expo-router";
 import { Image, View } from "react-native";
@@ -19,74 +20,74 @@ function TabIcon({ focused, icon }: { focused: boolean; icon: any }) {
 
 export default function TabsLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarShowLabel: true,
-        tabBarItemStyle: {
-          width: "100%",
-          height: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          top: 10,
-        },
-        tabBarStyle: {
-          position: "absolute",
-          borderRadius: 50,
-          overflow: "hidden",
-          marginHorizontal: 5,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={icons.home} />
-          ),
+    <View className="flex-1">
+      <Tabs
+        screenOptions={{
+          tabBarShowLabel: true,
+          tabBarItemStyle: {
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            top: 10,
+          },
+          tabBarStyle: {
+            position: "absolute",
+            borderRadius: 50,
+            overflow: "hidden",
+            marginHorizontal: 5,
+          },
         }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={icons.explore} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="favorite"
-        options={{
-          title: "Favorite",
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={icons.favorite} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="chat"
-        options={{
-          title: "Chat",
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={icons.chat} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={icons.profile} />
-          ),
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Home",
+            headerShown: false,
+            tabBarIcon: ({ focused }) => (
+              <TabIcon focused={focused} icon={icons.home} />
+            ),
+          }}
+        />
+
+        <Tabs.Screen
+          name="favorite"
+          options={{
+            title: "Favorite",
+            headerShown: false,
+            tabBarIcon: ({ focused }) => (
+              <TabIcon focused={focused} icon={icons.favorite} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="spacer"
+          options={{
+            tabBarButton: () => <View className="w-16" />,
+          }}
+        />
+        <Tabs.Screen
+          name="chat"
+          options={{
+            title: "Chat",
+            headerShown: false,
+            tabBarIcon: ({ focused }) => (
+              <TabIcon focused={focused} icon={icons.chat} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: "Profile",
+            headerShown: false,
+            tabBarIcon: ({ focused }) => (
+              <TabIcon focused={focused} icon={icons.profile} />
+            ),
+          }}
+        />
+      </Tabs>
+      <FloatingButton />
+    </View>
   );
 }
