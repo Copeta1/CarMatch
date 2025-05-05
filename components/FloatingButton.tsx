@@ -1,17 +1,18 @@
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Animated, Text, TouchableOpacity, View } from "react-native";
 
 const FloatingButton = () => {
   const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
 
-  const icon1Translate = useState(new Animated.Value(0))[0];
-  const icon2Translate = useState(new Animated.Value(0))[0];
-  const opacity = useState(new Animated.Value(0))[0];
+  const icon1Translate = useRef(new Animated.Value(0)).current;
+  const icon2Translate = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
 
   const popIn = () => {
     setShowMenu(true);
+
     Animated.parallel([
       Animated.timing(icon1Translate, {
         toValue: -140,
@@ -65,7 +66,7 @@ const FloatingButton = () => {
         >
           <TouchableOpacity
             onPress={() => {
-              setShowMenu(false);
+              popOut();
               router.push("/");
             }}
             className="w-16 h-16 rounded-full bg-blue-400 items-center justify-center shadow-lg"
@@ -85,7 +86,7 @@ const FloatingButton = () => {
         >
           <TouchableOpacity
             onPress={() => {
-              setShowMenu(false);
+              popOut();
               router.push("/");
             }}
             className="w-16 h-16 rounded-full bg-blue-400 items-center justify-center shadow-lg"
