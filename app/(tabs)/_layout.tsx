@@ -1,7 +1,8 @@
 import FloatingButton from "@/components/FloatingButton";
 import { icons } from "@/constants/icons";
-import { Tabs } from "expo-router";
-import { Image, View } from "react-native";
+import { Redirect, Tabs } from "expo-router";
+import { ActivityIndicator, Image, View } from "react-native";
+import { useAuth } from "../contexts/AuthContext";
 
 function TabIcon({ focused, icon }: { focused: boolean; icon: any }) {
   return (
@@ -19,6 +20,16 @@ function TabIcon({ focused, icon }: { focused: boolean; icon: any }) {
 }
 
 export default function TabsLayout() {
+  const { isLoggedIn, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (!isLoggedIn) {
+    return <Redirect href="/(auth)/login" />;
+  }
+
   return (
     <View className="flex-1">
       <Tabs

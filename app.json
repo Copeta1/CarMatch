@@ -8,6 +8,10 @@
     "scheme": "carmatch",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "extra": { 
+      "appwriteEndpoint": "https://fra.cloud.appwrite.io/v1",
+      "appwriteProjectId": "682c8cc4003cb3291e97"
+  },
     "ios": {
       "supportsTablet": true
     },

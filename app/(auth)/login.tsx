@@ -1,7 +1,8 @@
 import { icons } from "@/constants/icons";
-import { Link, router } from "expo-router";
-import React from "react";
+import { Link } from "expo-router";
+import React, { useState } from "react";
 import {
+  ActivityIndicator,
   Image,
   ScrollView,
   Text,
@@ -9,8 +10,30 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useAuth } from "../contexts/AuthContext";
 
-const login = () => {
+export default function Login() {
+  const { login, isLoading } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      await login(email, password);
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error("Login failed:", err.message);
+      } else {
+        console.error("Login failed:", err);
+      }
+      alert("Login failed. Check credentials.");
+    }
+  };
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
   return (
     <ScrollView
       className="flex-1 px-8"
@@ -31,10 +54,16 @@ const login = () => {
       <TextInput
         placeholder="example@gmail.com"
         className="bg-gray-200 p-3 mb-4 rounded-lg"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
 
       <Text className="font-bold pb-1 text-lg">Password</Text>
       <TextInput
+        value={password}
+        onChangeText={setPassword}
         placeholder="Password"
         secureTextEntry
         className="bg-gray-200 p-3 mb-6 rounded-lg"
@@ -42,7 +71,7 @@ const login = () => {
 
       <TouchableOpacity
         className="bg-blue-500 py-3 rounded-full"
-        onPress={() => router.replace("/(tabs)")}
+        onPress={handleLogin}
       >
         <Text className="text-white text-center font-semibold text-xl">
           Sign In{" "}
@@ -72,6 +101,4 @@ const login = () => {
       </Link>
     </ScrollView>
   );
-};
-
-export default login;
+}
