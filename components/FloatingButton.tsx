@@ -67,7 +67,7 @@ const FloatingButton = () => {
           <TouchableOpacity
             onPress={() => {
               popOut();
-              router.push("/");
+              router.push("/add");
             }}
             className="w-16 h-16 rounded-full bg-blue-400 items-center justify-center shadow-lg"
           >
@@ -87,7 +87,7 @@ const FloatingButton = () => {
           <TouchableOpacity
             onPress={() => {
               popOut();
-              router.push("/");
+              router.push("/edit");
             }}
             className="w-16 h-16 rounded-full bg-blue-400 items-center justify-center shadow-lg"
           >
