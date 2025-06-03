@@ -6,8 +6,11 @@ const CloseButton = () => {
   const router = useRouter();
 
   return (
-    <TouchableOpacity onPress={() => router.back()} className="mr-2">
-      <Text className="text-2xl font-bold ">X</Text>
+    <TouchableOpacity
+      onPress={() => router.back()}
+      className="w-9 h-9 rounded-full bg-blue-100 justify-center items-center ml-4"
+    >
+      <Text className="text-2xl font-bold">X</Text>
     </TouchableOpacity>
   );
 };
