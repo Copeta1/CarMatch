@@ -18,6 +18,18 @@ export default function CarLayout() {
         }}
       />
       <Stack.Screen
+        name="add1"
+        options={{
+          title: "Advertisement ",
+          headerShown: true,
+          headerRight: () => null,
+          headerStyle: {
+            backgroundColor: "#3b82f6",
+          },
+          headerTintColor: "#FFFFFF",
+        }}
+      />
+      <Stack.Screen
         name="edit"
         options={{
           title: "",

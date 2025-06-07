@@ -1,4 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Modal,
@@ -436,7 +437,10 @@ const Add = () => {
 
       <TouchableOpacity
         className="bg-blue-500 w-full px-6 py-3 rounded-full items-center mt-8 mb-24"
-        onPress={() => alert("Form submitted!")}
+        onPress={() => {
+          alert("Form submitted!");
+          router.push("/add1");
+        }}
       >
         <Text className="text-white font-semibold text-xl">Continue</Text>
       </TouchableOpacity>
