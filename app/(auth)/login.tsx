@@ -1,4 +1,3 @@
-import { icons } from "@/constants/icons";
 import { Link } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -10,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { icons } from "../../constants/icons";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {

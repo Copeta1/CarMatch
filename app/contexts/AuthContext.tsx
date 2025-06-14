@@ -1,6 +1,6 @@
-import { account } from "@/lib/appwrite";
 import { router } from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
+import { account } from "../../lib/appwrite";
 
 const AuthContext = createContext({
   isLoggedIn: false,

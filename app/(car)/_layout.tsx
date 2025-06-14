@@ -1,5 +1,5 @@
-import CloseButton from "@/components/CloseButton";
 import { Stack } from "expo-router";
+import CloseButton from "../../components/CloseButton";
 
 export default function CarLayout() {
   return (

@@ -1,7 +1,7 @@
-import FloatingButton from "@/components/FloatingButton";
-import { icons } from "@/constants/icons";
 import { Redirect, Tabs } from "expo-router";
 import { ActivityIndicator, Image, View } from "react-native";
+import FloatingButton from "../../components/FloatingButton";
+import { icons } from "../../constants/icons";
 import { useAuth } from "../contexts/AuthContext";
 
 function TabIcon({ focused, icon }: { focused: boolean; icon: any }) {

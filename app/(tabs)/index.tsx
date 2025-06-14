@@ -1,6 +1,6 @@
-import SearchBar from "@/components/SearchBar";
-import { icons } from "@/constants/icons";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import SearchBar from "../../components/SearchBar";
+import { icons } from "../../constants/icons";
 
 export default function Index() {
   return (

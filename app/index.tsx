@@ -1,6 +1,6 @@
-import { icons } from "@/constants/icons";
 import { router } from "expo-router";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { icons } from "../constants/icons";
 
 export default function StartedScreen() {
   return (
