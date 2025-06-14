@@ -1,10 +1,7 @@
-import { Picker } from "@react-native-picker/picker";
 import { Checkbox } from "expo-checkbox";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-  Modal,
-  Pressable,
   ScrollView,
   Switch,
   Text,
@@ -12,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import PickerModal from "../../components/PickerModal";
 
 const paymentOptions = [
   "Cash",
@@ -57,44 +55,6 @@ const categoryWarranty = [
 ];
 
 const categoryOwner = ["First", "Second", "Third or more"];
-
-const PickerModal = ({
-  visible,
-  onClose,
-  title,
-  selectedValue,
-  setTempValue,
-  options,
-  onConfirm,
-}: {
-  visible: boolean;
-  onClose: () => void;
-  title: string;
-  selectedValue: string;
-  setTempValue: (val: string) => void;
-  options: string[];
-  onConfirm: () => void;
-}) => (
-  <Modal transparent visible={visible} animationType="slide">
-    <Pressable className="flex-1 bg-black/30 justify-end" onPress={onClose}>
-      <Pressable className="bg-white rounded-t-2xl p-4">
-        <Text className="text-lg font-semibold mb-2">{title}</Text>
-        <Picker selectedValue={selectedValue} onValueChange={setTempValue}>
-          <Picker.Item label={`Select ${title}`} value="" />
-          {options.map((opt) => (
-            <Picker.Item key={opt} label={opt} value={opt} />
-          ))}
-        </Picker>
-        <TouchableOpacity
-          onPress={onConfirm}
-          className="bg-blue-500 rounded-lg px-4 py-3 mt-4"
-        >
-          <Text className="text-white text-center font-semibold">Confirm</Text>
-        </TouchableOpacity>
-      </Pressable>
-    </Pressable>
-  </Modal>
-);
 
 const Add1 = () => {
   const [form, setForm] = useState<{
@@ -324,5 +284,3 @@ const Add1 = () => {
 };
 
 export default Add1;
-
-// fixati REGISTRATION UNTIL
