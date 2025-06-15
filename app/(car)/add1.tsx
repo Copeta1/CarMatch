@@ -10,21 +10,7 @@ import {
   View,
 } from "react-native";
 import PickerModal from "../../components/PickerModal";
-
-const paymentOptions = [
-  "Cash",
-  "Credit",
-  "Leasing",
-  "Takeover of leasing",
-  "Installments with bank cards",
-  "Trade-in",
-  "Old for new",
-];
-
-const importOptions = [
-  "The price includes all import costs into the Republic of Croatia",
-  "The price excludes import costs",
-];
+import categoryData from "../../constants/category.json";
 
 const getRegistrationOptions = (): string[] => {
   const now = new Date();
@@ -40,21 +26,19 @@ const getRegistrationOptions = (): string[] => {
   return result;
 };
 
-const categoryWarranty = [
-  "6 months",
-  "1 year",
-  "2 years",
-  "3 years",
-  "4 years",
-  "5 years",
-  "6 years",
-  "7 years",
-  "8 years",
-  "9 years",
-  "10 or more years",
-];
+type CategoryData = {
+  paymentOptions: string[];
+  importOptions: string[];
+  categoryWarranty: string[];
+  categoryOwner: string[];
+};
 
-const categoryOwner = ["First", "Second", "Third or more"];
+const {
+  paymentOptions,
+  importOptions,
+  categoryWarranty,
+  categoryOwner,
+}: CategoryData = categoryData;
 
 const Add1 = () => {
   const [form, setForm] = useState<{

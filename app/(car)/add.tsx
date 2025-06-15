@@ -5,8 +5,6 @@ import { ScrollView, Text, TextInput, TouchableOpacity } from "react-native";
 import PickerModal from "../../components/PickerModal";
 import categoryData from "../../constants/category.json";
 
-//Data
-
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 70 }, (_, i) =>
   (currentYear - i).toString()

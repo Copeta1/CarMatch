@@ -1,0 +1,86 @@
+{
+  "categoryOptions": [
+    "Personal Vehicles",
+    "Commercial Vehicles",
+    "Oldtimers",
+    "Motorcycles / Motorbikes",
+    "Campers and Caravans",
+    "Spare parts and equipment"
+  ],
+  "subCategoryOptions": {
+    "Commercial Vehicles": [
+      "Vans and delivery vehicles",
+      "Cargo vehicles",
+      "Connected vehicles",
+      "Passenger cars",
+      "Buses",
+      "Other commercial vehicles"
+    ],
+    "Oldtimers": [
+      "Oldtimer cars",
+      "Oldtimer motorcycles",
+      "Other oldtimer vehicles",
+      "Parts and equipment for classic cars"
+    ],
+    "Motorcycles / Motorbikes": [
+      "Sports motorcycles",
+      "Road motorcycles",
+      "Cross motorcycles",
+      "Choppers",
+      "Mopeds",
+      "Scooters (up to 50 ccm)",
+      "Scooters (over 50 ccm)",
+      "Electric scooters",
+      "Quad bikes"
+    ],
+    "Campers and Caravans": [
+      "Campers",
+      "Camp trailers"
+    ]
+  },
+  "categoryEngineOptions": [
+    "Petrol",
+    "Diesel",
+    "Hybrid",
+    "Plug-in Hybrid",
+    "Electric"
+  ],
+  "categoryDriveOptions": [
+    "Front-wheel",
+    "Rear-wheel",
+    "4x4"
+  ],
+  "categoryTransmissionOptions": [
+    "Manual",
+    "Automatic",
+    "Automatic Sequential",
+    "Sequential Transmission"
+  ],
+  "paymentOptions": [
+  "Cash",
+  "Credit",
+  "Leasing",
+  "Takeover of leasing",
+  "Installments with bank cards",
+  "Trade-in",
+  "Old for new"
+],
+"importOptions": [
+  "The price includes all import costs into the Republic of Croatia",
+  "The price excludes import costs"
+],
+"categoryWarranty": [
+  "6 months",
+  "1 year",
+  "2 years",
+  "3 years",
+  "4 years",
+  "5 years",
+  "6 years",
+  "7 years",
+  "8 years",
+  "9 years",
+  "10 or more years"
+],
+"categoryOwner": ["First", "Second", "Third or more"]
+}
