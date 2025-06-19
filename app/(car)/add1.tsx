@@ -1,14 +1,9 @@
 import { Checkbox } from "expo-checkbox";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import {
-  ScrollView,
-  Switch,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, Switch, Text, TouchableOpacity, View } from "react-native";
+import { PickerField } from "../../components/formFields";
+import InputField from "../../components/InputField";
 import PickerModal from "../../components/PickerModal";
 import categoryData from "../../constants/category.json";
 
@@ -93,54 +88,14 @@ const Add1 = () => {
     setModal({ key: "", visible: false, tempValue: "" });
   };
 
-  const inputField = (
-    label: string,
-    key: keyof typeof form,
-    keyboard: "default" | "numeric" | "email-address" | "phone-pad" = "default",
-    placeholder: string = ""
-  ) => (
-    <>
-      <Text className="text-lg font-semibold mb-2">{label}</Text>
-      <TextInput
-        value={form[key] as string}
-        onChangeText={(val) => setForm((f) => ({ ...f, [key]: val }))}
-        keyboardType={keyboard}
-        className="bg-gray-100 rounded-lg px-4 py-3 mb-6 text-gray-800"
-        placeholder={placeholder}
-      />
-    </>
-  );
-
-  type FormType = typeof form;
-
-  type StringFormKey = {
-    [K in keyof FormType]: FormType[K] extends string ? K : never;
-  }[keyof FormType];
-
-  const pickerField = (
-    label: string,
-    key: StringFormKey,
-    options: string[]
-  ) => (
-    <>
-      <Text className="text-lg font-semibold mb-2">{label}</Text>
-      <TouchableOpacity
-        onPress={() =>
-          setModal({
-            key,
-            visible: true,
-            tempValue: form[key] || "",
-          })
-        }
-        className="bg-gray-100 rounded-lg px-4 py-3 flex-row justify-between items-center mb-4"
-      >
-        <Text className="text-gray-800">
-          {form[key] || `Select ${label.toLowerCase()}...`}
-        </Text>
-        <Text className="text-gray-400 text-lg">▼</Text>
-      </TouchableOpacity>
-    </>
-  );
+  const openModal = (key: keyof typeof form) => {
+    const value = form[key];
+    setModal({
+      key,
+      visible: true,
+      tempValue: typeof value === "string" ? value : "",
+    });
+  };
 
   const registrationMonths = getRegistrationOptions();
 
@@ -167,8 +122,20 @@ const Add1 = () => {
         General information
       </Text>
 
-      {inputField("Title", "title")}
-      {inputField("Description", "description")}
+      <InputField
+        label="Title"
+        value={form.title}
+        onChangeText={(val) => setForm((f) => ({ ...f, title: val }))}
+        keyboardType="default"
+        placeholder="Enter Title"
+      />
+      <InputField
+        label="Description"
+        value={form.description}
+        onChangeText={(val) => setForm((f) => ({ ...f, description: val }))}
+        keyboardType="default"
+        placeholder="Enter description"
+      />
 
       <Text className="text-lg font-semibold mb-4">Payment options</Text>
       {paymentOptions.map((opt) => (
@@ -181,7 +148,13 @@ const Add1 = () => {
         </View>
       ))}
 
-      {inputField("Price (€)", "price", "numeric", "e.g. 10000")}
+      <InputField
+        label="Price (€)"
+        value={form.price}
+        onChangeText={(val) => setForm((f) => ({ ...f, price: val }))}
+        keyboardType="numeric"
+        placeholder="e.g. 10000"
+      />
 
       <Text className="text-lg font-semibold mb-2">Import price</Text>
       {importOptions.map((opt) => (
@@ -209,16 +182,39 @@ const Add1 = () => {
         <Text className="text-lg pl-4">Garaged</Text>
       </View>
 
-      {inputField("Kilometers", "kilometers", "numeric", "e.g. 150000")}
-      {pickerField("Registration Until", "selectedMonth", registrationMonths)}
-      {pickerField("Owner", "owner", categoryOwner)}
-      {inputField("Year in Traffic", "yearInTraffic", "numeric", "e.g. 2015")}
-      {inputField(
-        "Registration in HR",
-        "registrationInHR",
-        "numeric",
-        "e.g. 2015"
-      )}
+      <InputField
+        label="Kilometers"
+        value={form.kilometers}
+        onChangeText={(val) => setForm((f) => ({ ...f, kilometers: val }))}
+        keyboardType="numeric"
+        placeholder="200000"
+      />
+      <PickerField
+        label="Registration Until"
+        value={form.selectedMonth}
+        onPress={() => openModal("selectedMonth")}
+      />
+      <PickerField
+        label="Owner"
+        value={form.owner}
+        onPress={() => openModal("owner")}
+      />
+      <InputField
+        label="Year in Traffic"
+        value={form.yearInTraffic}
+        onChangeText={(val) => setForm((f) => ({ ...f, yearInTraffic: val }))}
+        keyboardType="numeric"
+        placeholder="e.g. 2015"
+      />
+      <InputField
+        label="Registration in HR"
+        value={form.registrationInHR}
+        onChangeText={(val) =>
+          setForm((f) => ({ ...f, registrationInHR: val }))
+        }
+        keyboardType="numeric"
+        placeholder="e.g. 2015"
+      />
 
       <View className="flex-row items-center mb-4">
         <Switch
@@ -228,13 +224,19 @@ const Add1 = () => {
         <Text className="text-lg pl-4">Service Book</Text>
       </View>
 
-      {inputField(
-        "Chassis Number",
-        "chassisNumber",
-        "default",
-        "e.g. ABC123456789"
-      )}
-      {pickerField("Warranty", "warranty", categoryWarranty)}
+      <InputField
+        label="Chassis Number"
+        value={form.chassisNumber}
+        onChangeText={(val) => setForm((f) => ({ ...f, chassisNumber: val }))}
+        keyboardType="default"
+        placeholder="e.g. ABC123456789"
+      />
+
+      <PickerField
+        label="Warranty"
+        value={form.warranty}
+        onPress={() => openModal("warranty")}
+      />
 
       <TouchableOpacity
         className="bg-blue-500 w-full px-6 py-3 rounded-full items-center mt-6 mb-32"

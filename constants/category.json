@@ -56,6 +56,9 @@
     "Automatic Sequential",
     "Sequential Transmission"
   ],
+
+
+
   "paymentOptions": [
   "Cash",
   "Credit",
@@ -82,5 +85,148 @@
   "9 years",
   "10 or more years"
 ],
-"categoryOwner": ["First", "Second", "Third or more"]
+"categoryOwner": ["First", "Second", "Third or more"],
+
+
+
+
+
+"ecologicalOptions": [
+  "Euro 6",
+  "Euro 5",
+  "Euro 4",
+  "Euro 3",
+  "Euro 2",
+  "Euro 1",
+  "Euro ZX"
+],
+ "AirconditioningOptions": ["Manual", "Automatic", "Dual"],
+
+ "BodyshapeOptions": [
+  "Limousine",
+  "Caravan",
+  "Minivan",
+  "Coupe",
+  "Cabriolet",
+  "SUV",
+  "Kombibus",
+  "Hatchback"
+],
+
+ "additionalequipmentOptions": [
+  "Alloy wheels",
+  "Sports chassis",
+  "4x4",
+  "3rd brake light",
+  "Front fog lights",
+  "Tire pressure monitoring",
+  "Xenon lights",
+  "Bi-xenon lights",
+  "LED lights",
+  "Adaptive lights",
+  "Light sensor",
+  "Rain sensor",
+  "Navigation",
+  "Navigation + TV",
+  "Trip computer",
+  "Mesh luggage compartment partition",
+  "Sunroof",
+  "Roof box",
+  "Head-up system",
+  "Start-stop system",
+  "Disabled access"
+],
+
+ "ComfortOptions": [
+  "Electric seat adjustment",
+  "Split rear bench",
+  "Mobile phone preparation",
+  "Handsfree",
+  "electric mirror adjustment",
+  "electric mirror folding",
+  "CD changer",
+  "electric front windows",
+  "electric rear windows",
+  "Height-adjustable steering wheel",
+  "Power steering",
+  "Heated mirrors",
+  "Parking sensors",
+  "Front parking camera",
+  "Rear parking camera",
+  "Cruise control",
+  "Center armrest",
+  "Leather seats",
+  "Sport seats",
+  "Heated seats",
+  "Steering wheel controls",
+  "Android Auto",
+  "Apple CarPlay"
+],
+
+ "CarradioOptions": [
+  "tape recorder",
+  "CD player",
+  "CD / mp3 player",
+  "CD / mp3 / DVD player"
+],
+
+ "SafetyOptions": [
+  "ABS",
+  "ESP",
+  "EDC",
+  "ETS",
+  "ASR",
+  "ASR",
+  "ASD",
+  "self-tensioning seat belts",
+  "Isofix (child seat anchorage system)",
+  "adaptive cruise control",
+  "cruise control with braking function",
+  "lane departure warning system",
+  "lane keeping assist",
+  "rear-end collision protection",
+  "side-end collision protection"
+],
+
+ "AirbagsOptions": [
+  "driver's",
+  "driver's + passenger's",
+  "driver's + passenger's + side"
+],
+
+ "AntitheftOptions": [
+  "Alarm",
+  "Engine immobilizer",
+  "Central locking",
+  "Central locking with remote control",
+  "Multilock"
+],
+
+ "SuspensionOptions": ["Tvrdi", "sportski", "obični"],
+
+ "ColorOptions": [
+  "Beige",
+  "White",
+  "Black",
+  "Red",
+  "Burgundy",
+  "Purple",
+  "Orange",
+  "Blue",
+  "Light Blue",
+  "Dark Blue",
+  "Brown",
+  "Silver",
+  "Green",
+  "Light Green",
+  "Dark Green",
+  "Gold",
+  "Yellow"
+],
+
+"DiameterTireSize": [
+  "10","12","13","14", "15","16","16,5", "17", "17,5", "18", "19", "19,5", "20", "21", "22", "22,5", "23", "24", "The rest"
+]
+
+ 
 }
