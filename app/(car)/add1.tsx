@@ -1,7 +1,15 @@
 import { Checkbox } from "expo-checkbox";
+import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { ScrollView, Switch, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { PickerField } from "../../components/formFields";
 import InputField from "../../components/InputField";
 import PickerModal from "../../components/PickerModal";
@@ -68,6 +76,8 @@ const Add1 = () => {
     paymentMethods: [],
   });
 
+  const [images, setImages] = useState<string[]>([]);
+
   const [modal, setModal] = useState({
     key: "",
     visible: false,
@@ -99,6 +109,31 @@ const Add1 = () => {
 
   const registrationMonths = getRegistrationOptions();
 
+  const pickImages = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      alert("Permission to access media library is required.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsMultipleSelection: true,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      selectionLimit: 20 - images.length,
+      quality: 1,
+    });
+    if (!result.canceled && result.assets) {
+      const newImages = result.assets.map((asset) => asset.uri);
+      setImages((prev) => [...prev, ...newImages].slice(0, 20));
+    }
+  };
+
+  const removeImage = (uriToRemove: string) => {
+    setImages((prevImages) => prevImages.filter((uri) => uri !== uriToRemove));
+  };
+
   return (
     <ScrollView className="flex-1 px-6 py-4 bg-white">
       <Text className="font-semibold text-2xl text-blue-500 mb-4">
@@ -112,11 +147,36 @@ const Add1 = () => {
       <Text className="text-gray-600 text-base mb-4">
         The first image will be the main image of your ad.
       </Text>
-      <TouchableOpacity className="bg-gray-200 rounded-lg h-48 p-4 mb-6 justify-center">
+      <TouchableOpacity
+        className="bg-gray-200 rounded-lg h-48 p-4 mb-6 justify-center"
+        onPress={pickImages}
+      >
         <Text className="text-gray-500 text-center text-base">
-          Tap to add images
+          {images.length === 0
+            ? "Tap to add images"
+            : `${images.length} image(s) selected. Tap to add more.`}
         </Text>
       </TouchableOpacity>
+      <View className="flex-row flex-wrap mb-6 gap-2 justify-center">
+        {images.map((uri, index) => (
+          <View
+            key={index}
+            className="relative w-20 h-20 rounded-md overflow-hidden bg-gray-100"
+          >
+            <Image
+              source={{ uri }}
+              className="w-full h-full"
+              resizeMode="cover"
+            />
+            <TouchableOpacity
+              onPress={() => removeImage(uri)}
+              className="absolute top-1 right-1 bg-black/50 rounded-full p-1"
+            >
+              <Text className="text-white text-xs">✕</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </View>
 
       <Text className="font-semibold text-2xl text-blue-500 mb-4">
         General information

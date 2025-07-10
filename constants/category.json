@@ -113,7 +113,7 @@
   "Hatchback"
 ],
 
- "additionalequipmentOptions": [
+ "AdditionalequipmentOptions": [
   "Alloy wheels",
   "Sports chassis",
   "4x4",
@@ -176,7 +176,6 @@
   "EDC",
   "ETS",
   "ASR",
-  "ASR",
   "ASD",
   "self-tensioning seat belts",
   "Isofix (child seat anchorage system)",
@@ -202,7 +201,7 @@
   "Multilock"
 ],
 
- "SuspensionOptions": ["Tvrdi", "sportski", "obični"],
+ "SuspensionOptions": ["Hard", "Sport", "Regular"],
 
  "ColorOptions": [
   "Beige",
