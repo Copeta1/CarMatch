@@ -2,6 +2,7 @@ import { Checkbox } from "expo-checkbox";
 import React, { useState } from "react";
 import { ScrollView, Switch, Text, TouchableOpacity, View } from "react-native";
 import { PickerField } from "../../components/formFields";
+import { validateForm, ValidationRule } from "../../components/formValidation";
 import InputField from "../../components/InputField";
 import PickerModal from "../../components/PickerModal";
 import categoryData from "../../constants/category.json";
@@ -106,6 +107,10 @@ const Add2 = () => {
     videoLink: "",
   });
 
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof typeof form, string>>
+  >({});
+
   const [modal, setModal] = useState({
     key: "",
     visible: false,
@@ -138,6 +143,26 @@ const Add2 = () => {
     });
   };
 
+  type FormData = typeof form;
+
+  const validationRules: ValidationRule<FormData>[] = [
+    {
+      field: "seats",
+      validate: (val) => val.trim().length > 0,
+      message: "Seats is required.",
+    },
+    {
+      field: "doors",
+      validate: (val) => val.trim().length > 0,
+      message: "Doors is required.",
+    },
+    {
+      field: "bodyshape",
+      validate: (val) => val.trim().length > 0,
+      message: "Body shape is required.",
+    },
+  ];
+
   return (
     <ScrollView className="flex-1 px-6 py-4 bg-white">
       <Text className="font-semibold text-2xl text-blue-500 mb-4">
@@ -165,17 +190,22 @@ const Add2 = () => {
       />
 
       <PickerField
-        label="Number of seats"
+        label="Number of seats *"
         value={form.seats}
         onPress={() => openModel("seats")}
       />
+      {errors.seats && (
+        <Text className="text-red-500 text-sm mb-4">{errors.seats}</Text>
+      )}
 
       <PickerField
-        label="Number of doors"
+        label="Number of doors *"
         value={form.doors}
         onPress={() => openModel("doors")}
       />
-
+      {errors.doors && (
+        <Text className="text-red-500 text-sm mb-4">{errors.doors}</Text>
+      )}
       <PickerField
         label="Air conditioning"
         value={form.airconditioning}
@@ -183,10 +213,13 @@ const Add2 = () => {
       />
 
       <PickerField
-        label="Body shape"
+        label="Body shape *"
         value={form.bodyshape}
         onPress={() => openModel("bodyshape")}
       />
+      {errors.bodyshape && (
+        <Text className="text-red-500 text-sm mb-4">{errors.bodyshape}</Text>
+      )}
 
       <Text className="text-lg font-semibold mb-4">Additional equipment</Text>
       {AdditionalequipmentOptions.map((opt) => (
@@ -301,6 +334,14 @@ const Add2 = () => {
       <TouchableOpacity
         className="bg-blue-500 w-full px-6 py-3 rounded-full items-center mt-6 mb-32"
         onPress={() => {
+          const { valid, errors: validationErrors } = validateForm(
+            form,
+            validationRules
+          );
+          if (!valid) {
+            setErrors(validationErrors);
+            return;
+          }
           alert("Form submitted!");
         }}
       >

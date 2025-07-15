@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { ScrollView, Text, TouchableOpacity } from "react-native";
 import { PickerField } from "../../components/formFields";
+import { validateForm, ValidationRule } from "../../components/formValidation";
 
 import InputField from "../../components/InputField";
 import PickerModal from "../../components/PickerModal";
@@ -11,6 +12,18 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 70 }, (_, i) =>
   (currentYear - i).toString()
 );
+
+type FormData = {
+  category: string;
+  subcategory: string;
+  modelYear: string;
+  productionYear: string;
+  engineType: string;
+  driveType: string;
+  transmissionType: string;
+  enginePower: string;
+  sweptVolume: string;
+};
 
 type CategoryData = {
   categoryOptions: string[];
@@ -41,6 +54,8 @@ const Add = () => {
     sweptVolume: "",
   });
 
+  const [errors, setErrors] = useState<Partial<typeof form>>({});
+
   const [modal, setModal] = useState({
     key: "",
     visible: false,
@@ -61,6 +76,35 @@ const Add = () => {
     if (modal.key === "category") setForm((f) => ({ ...f, subcategory: "" }));
   };
 
+  const validationRules: ValidationRule<FormData>[] = [
+    {
+      field: "category",
+      validate: (val: string) => val.trim().length > 0,
+      message: "Vehicle Category is required.",
+    },
+    {
+      field: "subcategory",
+      validate: (val: string, form: FormData) =>
+        !subCategoryOptions[form.category] || val.trim().length > 0,
+      message: "Subcategory is required.",
+    },
+    {
+      field: "engineType",
+      validate: (val: string) => val.trim().length > 0,
+      message: "Engine Type is required.",
+    },
+    {
+      field: "sweptVolume",
+      validate: (val: string) => val.trim().length > 0,
+      message: "Swept Volume (cc) is required.",
+    },
+    {
+      field: "transmissionType",
+      validate: (val: string) => val.trim().length > 0,
+      message: "Transmission Type is required.",
+    },
+  ];
+
   return (
     <ScrollView className="flex-1 px-6 py-4 bg-white">
       <Text className="font-semibold text-2xl text-blue-500 mb-4">
@@ -68,17 +112,23 @@ const Add = () => {
       </Text>
 
       <PickerField
-        label="Vehicle Category"
+        label="Vehicle Category *"
         value={form.category}
         onPress={() => openModal("category")}
       />
+      {errors.category && (
+        <Text className="text-red-600 text-sm">{errors.category}</Text>
+      )}
 
       {subCategoryOptions[form.category] && (
         <PickerField
-          label="Subcategory"
+          label="Subcategory *"
           value={form.subcategory}
           onPress={() => openModal("subcategory")}
         />
+      )}
+      {errors.category && (
+        <Text className="text-red-600 text-sm">{errors.subcategory}</Text>
       )}
 
       <InputField
@@ -105,10 +155,14 @@ const Add = () => {
       </Text>
 
       <PickerField
-        label="Engine Type"
+        label="Engine Type *"
         value={form.engineType}
         onPress={() => openModal("engineType")}
       />
+      {errors.category && (
+        <Text className="text-red-600 text-sm mb-4">{errors.engineType}</Text>
+      )}
+
       <InputField
         label="Engine Power kW"
         value={form.enginePower}
@@ -119,7 +173,7 @@ const Add = () => {
         placeholder="Enter the engine power"
       />
       <InputField
-        label="Swept Volume (cc)"
+        label="Swept Volume (cc) *"
         value={form.sweptVolume}
         onChangeText={(val) =>
           setForm({ ...form, sweptVolume: val.replace(/[^0-9]/g, "") })
@@ -127,21 +181,38 @@ const Add = () => {
         keyboardType="numeric"
         placeholder="Enter the swept volume"
       />
+      {errors.category && (
+        <Text className="text-red-600 text-sm mb-4">{errors.sweptVolume}</Text>
+      )}
       <PickerField
         label="Drive Type"
         value={form.driveType}
         onPress={() => openModal("driveType")}
       />
       <PickerField
-        label="Transmission Type"
+        label="Transmission Type *"
         value={form.transmissionType}
         onPress={() => openModal("transmissionType")}
       />
+      {errors.category && (
+        <Text className="text-red-600 text-sm mb-4">
+          {errors.transmissionType}
+        </Text>
+      )}
 
       <TouchableOpacity
         className="bg-blue-500 w-full px-6 py-3 rounded-full items-center mt-8 mb-24"
         onPress={() => {
-          alert("Form submitted!");
+          const { valid, errors: validationErrors } = validateForm(
+            form,
+            validationRules
+          );
+
+          if (!valid) {
+            setErrors(validationErrors);
+            return;
+          }
+
           router.push("/add1");
         }}
       >

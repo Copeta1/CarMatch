@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 import { PickerField } from "../../components/formFields";
+import { validateForm, ValidationRule } from "../../components/formValidation";
 import InputField from "../../components/InputField";
 import PickerModal from "../../components/PickerModal";
 import categoryData from "../../constants/category.json";
@@ -78,6 +79,10 @@ const Add1 = () => {
 
   const [images, setImages] = useState<string[]>([]);
 
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof typeof form, string>>
+  >({});
+
   const [modal, setModal] = useState({
     key: "",
     visible: false,
@@ -134,6 +139,34 @@ const Add1 = () => {
     setImages((prevImages) => prevImages.filter((uri) => uri !== uriToRemove));
   };
 
+  const validationRules: ValidationRule<typeof form>[] = [
+    {
+      field: "title",
+      validate: (val) => val.trim().length > 0,
+      message: "Title is required.",
+    },
+    {
+      field: "description",
+      validate: (val) => val.trim().length > 0,
+      message: "Description is required.",
+    },
+    {
+      field: "paymentMethods",
+      validate: (val) => val.length > 0,
+      message: "At least one payment method is required.",
+    },
+    {
+      field: "price",
+      validate: (val) => /^\d+$/.test(val),
+      message: "Valid price is required.",
+    },
+    {
+      field: "kilometers",
+      validate: (val) => /^\d+$/.test(val),
+      message: "Valid kilometers value is required.",
+    },
+  ];
+
   return (
     <ScrollView className="flex-1 px-6 py-4 bg-white">
       <Text className="font-semibold text-2xl text-blue-500 mb-4">
@@ -183,21 +216,28 @@ const Add1 = () => {
       </Text>
 
       <InputField
-        label="Title"
+        label="Title *"
         value={form.title}
         onChangeText={(val) => setForm((f) => ({ ...f, title: val }))}
         keyboardType="default"
         placeholder="Enter Title"
       />
+      {errors.title && (
+        <Text className="text-red-600 text-sm mb-2">{errors.title}</Text>
+      )}
+
       <InputField
-        label="Description"
+        label="Description *"
         value={form.description}
         onChangeText={(val) => setForm((f) => ({ ...f, description: val }))}
         keyboardType="default"
         placeholder="Enter description"
       />
+      {errors.description && (
+        <Text className="text-red-600 text-sm mb-2">{errors.description}</Text>
+      )}
 
-      <Text className="text-lg font-semibold mb-4">Payment options</Text>
+      <Text className="text-lg font-semibold mb-4">Payment options *</Text>
       {paymentOptions.map((opt) => (
         <View key={opt} className="flex-row items-center mb-4 ml-2">
           <Checkbox
@@ -207,14 +247,22 @@ const Add1 = () => {
           <Text className="ml-2 text-base">{opt}</Text>
         </View>
       ))}
+      {errors.paymentMethods && (
+        <Text className="text-red-600 text-sm mb-2 ml-2">
+          {errors.paymentMethods}
+        </Text>
+      )}
 
       <InputField
-        label="Price (€)"
+        label="Price (€) *"
         value={form.price}
         onChangeText={(val) => setForm((f) => ({ ...f, price: val }))}
         keyboardType="numeric"
         placeholder="e.g. 10000"
       />
+      {errors.price && (
+        <Text className="text-red-600 text-sm mb-2">{errors.price}</Text>
+      )}
 
       <Text className="text-lg font-semibold mb-2">Import price</Text>
       {importOptions.map((opt) => (
@@ -243,12 +291,16 @@ const Add1 = () => {
       </View>
 
       <InputField
-        label="Kilometers"
+        label="Kilometers *"
         value={form.kilometers}
         onChangeText={(val) => setForm((f) => ({ ...f, kilometers: val }))}
         keyboardType="numeric"
         placeholder="200000"
       />
+      {errors.kilometers && (
+        <Text className="text-red-600 text-sm mb-2">{errors.kilometers}</Text>
+      )}
+
       <PickerField
         label="Registration Until"
         value={form.selectedMonth}
@@ -301,7 +353,15 @@ const Add1 = () => {
       <TouchableOpacity
         className="bg-blue-500 w-full px-6 py-3 rounded-full items-center mt-6 mb-32"
         onPress={() => {
-          alert("Form submitted!");
+          const { valid, errors: validationErrors } = validateForm(
+            form,
+            validationRules
+          );
+          if (!valid) {
+            setErrors(validationErrors);
+            return;
+          }
+
           router.push("/add2");
         }}
       >
