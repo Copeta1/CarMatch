@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { ScrollView, Text, TouchableOpacity } from "react-native";
 import { PickerField } from "../../components/formFields";
 import { validateForm, ValidationRule } from "../../components/formValidation";
+import { useFormStore } from "../../store/formStore";
 
 import InputField from "../../components/InputField";
 import PickerModal from "../../components/PickerModal";
@@ -213,6 +214,7 @@ const Add = () => {
             return;
           }
 
+          useFormStore.getState().setStep1(form);
           router.push("/add1");
         }}
       >

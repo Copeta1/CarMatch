@@ -1,4 +1,5 @@
 import { Checkbox } from "expo-checkbox";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { ScrollView, Switch, Text, TouchableOpacity, View } from "react-native";
 import { PickerField } from "../../components/formFields";
@@ -6,6 +7,8 @@ import { validateForm, ValidationRule } from "../../components/formValidation";
 import InputField from "../../components/InputField";
 import PickerModal from "../../components/PickerModal";
 import categoryData from "../../constants/category.json";
+import { databases, ID, storage } from "../../lib/appwrite";
+import { useFormStore } from "../../store/formStore";
 
 const SeatsOptions = [
   ...Array.from({ length: 8 }, (_, i) => (i + 1).toString()),
@@ -106,6 +109,7 @@ const Add2 = () => {
     diameterTireSize: "",
     videoLink: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState<
     Partial<Record<keyof typeof form, string>>
@@ -144,7 +148,6 @@ const Add2 = () => {
   };
 
   type FormData = typeof form;
-
   const validationRules: ValidationRule<FormData>[] = [
     {
       field: "seats",
@@ -162,6 +165,50 @@ const Add2 = () => {
       message: "Body shape is required.",
     },
   ];
+
+  const handleSubmit = async () => {
+    const { valid, errors: validationErrors } = validateForm(
+      form,
+      validationRules
+    );
+    if (!valid) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    const store = useFormStore.getState();
+    store.setStep3(form);
+    const data = store.getCombinedForm();
+
+    try {
+      setLoading(true);
+
+      const doc = await databases.createDocument(
+        "68779122001fd7f92f56", // databaseId: car_ads
+        "68779345003171b49730", // collectionId: vehicles
+        ID.unique(),
+        data
+      );
+
+      for (const uri of store.images) {
+        const fileName = uri.split("/").pop() || `image-${Date.now()}.jpg`;
+        const response = await fetch(uri);
+        const blob = await response.blob();
+
+        const file = new File([blob], fileName, { type: blob.type });
+
+        await storage.createFile("68790aed002d3a582891", ID.unique(), file);
+      }
+
+      alert("Published successfully!");
+      router.replace("/(tabs)");
+    } catch (err) {
+      console.error("Appwrite error:", err);
+      alert("There was an error sending. ");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <ScrollView className="flex-1 px-6 py-4 bg-white">
@@ -333,17 +380,8 @@ const Add2 = () => {
 
       <TouchableOpacity
         className="bg-blue-500 w-full px-6 py-3 rounded-full items-center mt-6 mb-32"
-        onPress={() => {
-          const { valid, errors: validationErrors } = validateForm(
-            form,
-            validationRules
-          );
-          if (!valid) {
-            setErrors(validationErrors);
-            return;
-          }
-          alert("Form submitted!");
-        }}
+        onPress={handleSubmit}
+        disabled={loading}
       >
         <Text className="text-white font-semibold text-xl">Submit</Text>
       </TouchableOpacity>

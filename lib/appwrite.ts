@@ -1,7 +1,6 @@
-import { Account, Client, ID } from "appwrite";
+import { Account, Client, Databases, ID, Storage } from "appwrite";
 import Constants from "expo-constants";
 
-// Get variables from Expo config
 const endpoint = Constants.expoConfig?.extra?.appwriteEndpoint;
 const projectId = Constants.expoConfig?.extra?.appwriteProjectId;
 
@@ -10,10 +9,12 @@ if (!endpoint || !projectId) {
 }
 
 const client = new Client();
-client
-  .setEndpoint(endpoint)
-  .setProject(projectId);
+client.setEndpoint(endpoint).setProject(projectId);
 
 const account = new Account(client);
+const databases = new Databases(client);
+const storage = new Storage(client);
 
-export { account, ID };
+
+export { account, client, databases, ID, storage };
+

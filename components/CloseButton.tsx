@@ -1,6 +1,7 @@
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 const CloseButton = () => {
   const router = useRouter();
@@ -8,9 +9,9 @@ const CloseButton = () => {
   return (
     <TouchableOpacity
       onPress={() => router.back()}
-      className="w-9 h-9 rounded-full bg-blue-100 justify-center items-center ml-4"
+      className="w-8 h-8 rounded-full bg-black justify-center items-center ml-4"
     >
-      <Text className="text-2xl font-bold">X</Text>
+      <AntDesign name="closecircle" size={24} color="white" />
     </TouchableOpacity>
   );
 };

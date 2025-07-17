@@ -15,6 +15,7 @@ import { validateForm, ValidationRule } from "../../components/formValidation";
 import InputField from "../../components/InputField";
 import PickerModal from "../../components/PickerModal";
 import categoryData from "../../constants/category.json";
+import { useFormStore } from "../../store/formStore";
 
 const getRegistrationOptions = (): string[] => {
   const now = new Date();
@@ -362,6 +363,9 @@ const Add1 = () => {
             return;
           }
 
+          const store = useFormStore.getState();
+          store.setStep2(form);
+          store.setImages(images);
           router.push("/add2");
         }}
       >
