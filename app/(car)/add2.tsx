@@ -7,7 +7,15 @@ import { validateForm, ValidationRule } from "../../components/formValidation";
 import InputField from "../../components/InputField";
 import PickerModal from "../../components/PickerModal";
 import categoryData from "../../constants/category.json";
-import { databases, ID, storage } from "../../lib/appwrite";
+import {
+  account,
+  appwriteBucketVehicleImagesId,
+  appwriteCollectionVehiclesId,
+  appwriteDatabaseId,
+  databases,
+  ID,
+  storage,
+} from "../../lib/appwrite";
 import { useFormStore } from "../../store/formStore";
 
 const SeatsOptions = [
@@ -178,14 +186,17 @@ const Add2 = () => {
 
     const store = useFormStore.getState();
     store.setStep3(form);
-    const data = store.getCombinedForm();
+    const data: Record<string, any> = store.getCombinedForm();
 
     try {
       setLoading(true);
 
+      const user = await account.get();
+      data.userId = user.$id;
+
       const doc = await databases.createDocument(
-        "68779122001fd7f92f56", // databaseId: car_ads
-        "68779345003171b49730", // collectionId: vehicles
+        appwriteDatabaseId,
+        appwriteCollectionVehiclesId,
         ID.unique(),
         data
       );
@@ -197,7 +208,11 @@ const Add2 = () => {
 
         const file = new File([blob], fileName, { type: blob.type });
 
-        await storage.createFile("68790aed002d3a582891", ID.unique(), file);
+        await storage.createFile(
+          appwriteBucketVehicleImagesId,
+          ID.unique(),
+          file
+        );
       }
 
       alert("Published successfully!");
@@ -217,7 +232,7 @@ const Add2 = () => {
       </Text>
 
       <InputField
-        label="Fuel consumption (l/100kn)"
+        label="Fuel consumption (l/100km)"
         value={form.fuelConsumption}
         onChangeText={(val) => setForm((f) => ({ ...f, fuelConsumption: val }))}
         keyboardType="numeric"

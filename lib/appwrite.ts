@@ -1,20 +1,27 @@
 import { Account, Client, Databases, ID, Storage } from "appwrite";
 import Constants from "expo-constants";
 
-const endpoint = Constants.expoConfig?.extra?.appwriteEndpoint;
-const projectId = Constants.expoConfig?.extra?.appwriteProjectId;
+const {
+  appwriteEndpoint,
+  appwriteProjectId,
+  appwriteDatabaseId,
+  appwriteCollectionVehiclesId,
+  appwriteBucketVehicleImagesId,
+} = Constants.expoConfig?.extra || {};
 
-if (!endpoint || !projectId) {
+if (!appwriteEndpoint || !appwriteProjectId || !appwriteDatabaseId || !appwriteCollectionVehiclesId || !appwriteBucketVehicleImagesId) {
   throw new Error("Missing Appwrite environment variables.");
 }
 
 const client = new Client();
-client.setEndpoint(endpoint).setProject(projectId);
+client.setEndpoint(appwriteEndpoint).setProject(appwriteProjectId);
 
 const account = new Account(client);
 const databases = new Databases(client);
 const storage = new Storage(client);
 
-
-export { account, client, databases, ID, storage };
+export {
+  account, appwriteBucketVehicleImagesId, appwriteCollectionVehiclesId, appwriteDatabaseId, client,
+  databases, ID, storage
+};
 
