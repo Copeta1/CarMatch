@@ -17,6 +17,8 @@ const years = Array.from({ length: 70 }, (_, i) =>
 type FormData = {
   category: string;
   subcategory: string;
+  carBrand: string;
+  carModel: string;
   modelYear: string;
   productionYear: string;
   engineType: string;
@@ -29,6 +31,7 @@ type FormData = {
 type CategoryData = {
   categoryOptions: string[];
   subCategoryOptions: { [key: string]: string[] };
+  carBrandOptions: { [brand: string]: string[] };
   categoryEngineOptions: string[];
   categoryDriveOptions: string[];
   categoryTransmissionOptions: string[];
@@ -37,6 +40,7 @@ type CategoryData = {
 const {
   categoryOptions,
   subCategoryOptions,
+  carBrandOptions,
   categoryEngineOptions,
   categoryDriveOptions,
   categoryTransmissionOptions,
@@ -46,6 +50,8 @@ const Add = () => {
   const [form, setForm] = useState({
     category: "",
     subcategory: "",
+    carBrand: "",
+    carModel: "",
     modelYear: "",
     productionYear: "",
     engineType: "",
@@ -90,6 +96,16 @@ const Add = () => {
       message: "Subcategory is required.",
     },
     {
+      field: "carBrand",
+      validate: (val: string) => val.trim().length > 0,
+      message: "Car brand is required.",
+    },
+    {
+      field: "carModel",
+      validate: (val: string) => val.trim().length > 0,
+      message: "Car model is required.",
+    },
+    {
       field: "engineType",
       validate: (val: string) => val.trim().length > 0,
       message: "Engine Type is required.",
@@ -130,6 +146,26 @@ const Add = () => {
       )}
       {errors.category && (
         <Text className="text-red-600 text-sm">{errors.subcategory}</Text>
+      )}
+
+      <PickerField
+        label="Car brand *"
+        value={form.carBrand}
+        onPress={() => openModal("carBrand")}
+      />
+      {errors.category && (
+        <Text className="text-red-600 text-sm">{errors.carBrand}</Text>
+      )}
+
+      {form.carBrand && carBrandOptions[form.carBrand] && (
+        <PickerField
+          label="Model *"
+          value={form.carModel}
+          onPress={() => openModal("carModel")}
+        />
+      )}
+      {errors.category && (
+        <Text className="text-red-600 text-sm">{errors.carModel}</Text>
       )}
 
       <InputField
@@ -234,6 +270,10 @@ const Add = () => {
             ? categoryOptions
             : modal.key === "subcategory"
             ? subCategoryOptions[form.category] || []
+            : modal.key === "carBrand"
+            ? Object.keys(carBrandOptions)
+            : modal.key === "carModel"
+            ? carBrandOptions[form.carBrand] || []
             : modal.key === "engineType"
             ? categoryEngineOptions
             : modal.key === "driveType"
