@@ -102,7 +102,10 @@ const Add = () => {
     },
     {
       field: "carModel",
-      validate: (val: string) => val.trim().length > 0,
+      validate: (val: string, form: FormData) => {
+        if (!form.carBrand) return true;
+        return val.trim().length > 0;
+      },
       message: "Car model is required.",
     },
     {

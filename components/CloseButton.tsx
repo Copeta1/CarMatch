@@ -9,9 +9,9 @@ const CloseButton = () => {
   return (
     <TouchableOpacity
       onPress={() => router.back()}
-      className="w-9 h-9 rounded-full justify-center items-center"
+      className="w-10 h-10 rounded-full justify-center items-center"
     >
-      <AntDesign name="close-circle" size={24} color="white" />
+      <AntDesign name="close" size={20} color="white" />
     </TouchableOpacity>
   );
 };
