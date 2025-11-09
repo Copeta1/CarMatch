@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import "react-native-get-random-values";
 import { AuthProvider } from "./contexts/AuthContext";
 import "./global.css";
 

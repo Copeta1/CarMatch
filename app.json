@@ -9,14 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "extra": {
-      "appwriteEndpoint": "https://cloud.appwrite.io/v1",
+      "appwriteEndpoint": "https://fra.cloud.appwrite.io/v1",
       "appwriteProjectId": "682c8cc4003cb3291e97",
       "appwriteDatabaseId": "68779122001fd7f92f56",
       "appwriteCollectionVehiclesId": "68779345003171b49730",
       "appwriteBucketVehicleImagesId": "68790aed002d3a582891"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.peco.carmatch"
     },
     "android": {
       "adaptiveIcon": {

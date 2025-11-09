@@ -1,5 +1,5 @@
-import { Account, Client, Databases, ID, Storage } from "appwrite";
 import Constants from "expo-constants";
+import { Account, Client, Databases, ID, Storage, } from "react-native-appwrite";
 
 const {
   appwriteEndpoint,
@@ -21,7 +21,7 @@ const databases = new Databases(client);
 const storage = new Storage(client);
 
 export {
-  account, appwriteBucketVehicleImagesId, appwriteCollectionVehiclesId, appwriteDatabaseId, client,
+  account, appwriteBucketVehicleImagesId, appwriteCollectionVehiclesId, appwriteDatabaseId, appwriteProjectId, client,
   databases, ID, storage
 };
 

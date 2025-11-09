@@ -185,6 +185,7 @@ const Add2 = () => {
     }
 
     const store = useFormStore.getState();
+    console.log(store);
     store.setStep3(form);
     const data: Record<string, any> = store.getCombinedForm();
 
@@ -194,6 +195,7 @@ const Add2 = () => {
       const user = await account.get();
       data.userId = user.$id;
 
+      // 1. KREIRANJE GLAVNOG DOKUMENTA VOZILA
       const doc = await databases.createDocument(
         appwriteDatabaseId,
         appwriteCollectionVehiclesId,
@@ -201,19 +203,44 @@ const Add2 = () => {
         data
       );
 
+      // ✨ KORAK 1: INICIJALIZACIJA NIZA ZA ID-eve SLIKA
+      const imageIds: string[] = [];
+
       for (const uri of store.images) {
         const fileName = uri.split("/").pop() || `image-${Date.now()}.jpg`;
+
         const response = await fetch(uri);
         const blob = await response.blob();
+        const mimeType = blob.type || "image/jpeg";
 
-        const file = new File([blob], fileName, { type: blob.type });
+        const fileToUpload = {
+          name: fileName,
+          type: mimeType,
+          size: blob.size,
+          uri: uri,
+        };
 
-        await storage.createFile(
+        // 2. KREIRANJE DATOTEKE
+        const res = await storage.createFile(
           appwriteBucketVehicleImagesId,
           ID.unique(),
-          file
+          fileToUpload
         );
+
+        // ✨ KORAK 2: SPREMANJE VRAĆENOG ID-a
+        imageIds.push(res.$id); // ID se dobiva direktno iz odgovora!
+        console.log("Uploaded File ID:", res.$id);
       }
+
+      // ✨ KORAK 3: AŽURIRANJE DOKUMENTA S ID-EVIMA SLIKA
+      await databases.updateDocument(
+        appwriteDatabaseId,
+        appwriteCollectionVehiclesId,
+        doc.$id, // ID dokumenta kreiranog u koraku 1
+        {
+          imageRefs: imageIds, // Spremanje cijelog niza ID-eva
+        }
+      );
 
       alert("Published successfully!");
       router.replace("/(tabs)");
